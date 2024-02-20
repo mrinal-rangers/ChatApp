@@ -4,6 +4,8 @@ import Logo from "../Assets/logo.svg"
 import {useState,useEffect} from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { registerRoute } from "../Utils/APIroutes";
 
 const Register = () => {
   const [values,setValues] = useState({
@@ -20,9 +22,16 @@ const Register = () => {
     theme : "dark",
   }
 
-  const handleSubmit = (event)=>{
+  const handleSubmit = async(event)=>{
     event.preventDefault();
-    handleValidation();
+    if(handleValidation()){
+      console.log('invalidation',registerRoute);
+      const {password,username,email} = values;
+      console.log(username,email,password);
+      const {data} = await axios.post(registerRoute,{
+        username,email,password
+      });
+    }
   }
   const handleValidation =()=>{
     const {password,confirmPassword,username,email} = values;
@@ -42,7 +51,6 @@ const Register = () => {
   }
 
   const handleChange = (event)=>{
-    console.log(event);
     setValues({...values,[event.target.name]:event.target.value});
   }
 
@@ -59,7 +67,7 @@ const Register = () => {
           <input type="email" placeholder="Email" name="email" onChange={handleChange} />
           <input type="password" placeholder="Password" name="password" onChange={handleChange} />
           <input type="password" placeholder="Confirm password" name="confirmPassword" onChange={handleChange} />
-          <button type ="submit "> Create User </button>
+          <button type ="submit" > Create User </button>
           <span>Alreay have an account ?  <Link to="/login" > Login </Link> </span>
         </form>
       </FormContainer>
