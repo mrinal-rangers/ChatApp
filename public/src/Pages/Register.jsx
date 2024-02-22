@@ -22,6 +22,12 @@ const Register = () => {
     draggable:true,
     theme : "dark",
   }
+  useEffect(()=>{
+    if(localStorage.getItem('chat-app-user')){
+      navigate('/');
+    }
+  },[])
+
 
   const handleSubmit = async(event)=>{
     event.preventDefault();
@@ -32,6 +38,7 @@ const Register = () => {
       });
       if(data.status === false){
         toast.error(data.msg,toastOptions);
+        return ;
       }
       if(data.status === true){
         localStorage.setItem('chat-app-user',JSON.stringify(data.user));
