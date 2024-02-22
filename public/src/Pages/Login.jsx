@@ -23,8 +23,9 @@ const Login = () => {
   }
 
   useEffect(()=>{
-    if(localStorage.getItem('chat-app-user')){
-      navigate('/');
+    const user = localStorage.getItem('chat-app-user');
+    if (user) {
+       navigate('/');
     }
   },[])
 
