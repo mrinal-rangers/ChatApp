@@ -48,3 +48,19 @@ module.exports.setAvatar = async(req,res,next)=>{
             next(error);
         }
 }
+
+module.exports.getAllUsers = async(req,res,next)=>{
+    try {
+        const userId = req.params.id;
+        const users = Users.find({}).select([
+            'email','username','avatarImage','_id'
+        ]);
+        users = users.filter((item)=>{
+            (item._id != userId);
+        })
+        console.log(users);
+        return res.json(users);
+        } catch (error) {
+            next(error);
+        }
+}
