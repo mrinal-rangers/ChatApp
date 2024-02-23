@@ -14,7 +14,7 @@ const SetAvatar = () => {
     const api  = "https://api.multiavatar.com/1234"
     const navigate = useNavigate();
     const [avatars,setAvatars] = useState([]);
-    const [isLoading,setisLoading] = useState(false);
+    const [isLoading,setisLoading] = useState(true);
     const [selectedAvatar,setSelectedAvatars] = useState(undefined);
 
     const toastOptions ={
@@ -29,6 +29,20 @@ const SetAvatar = () => {
         if(selectedAvatar === undefined){
           toast.error("Select an image",toastOptions); 
           return false;
+        }else{
+          const user = await JSON.parse(localStorage.getItem('chat-app-user'));
+          const data = await axios.post(`${setAvatarRoute}/${user._id}`,{
+            image:avatars[selectedAvatar],
+          });
+          console.log(data);
+          if(data.data.isSet){
+            user.isAvatarImageSet=true;
+            user.avatarImage= avatars[selectedAvatar];
+            localStorage.setItem('chat-app-user',JSON.stringify(user));
+            navigate('/');
+          }else{
+            toast.error("Error setting avatar . Please Try again",toastOptions); 
+          }
         }
 
       };
@@ -46,18 +60,28 @@ const SetAvatar = () => {
             setAvatars(data);
           } catch (error) {
             console.error('Error fetching data:', error);
-          } finally {
-            setisLoading(false); 
           }
         };
-      
-        setisLoading(true);
         fetchData();
+      },[])
+
+      useEffect(()=>{
+        if(avatars.length === 4 ) setisLoading(false);
+      },[avatars.length])
+
+      useEffect(()=>{
+        if(!localStorage.getItem('chat-app-user')){
+          navigate('/login');
+        }
       },[])
 
   return (
     <>
-    <Container>
+    {
+      (isLoading )? <Container>
+          <img src={loader} alt="loader" className="loader" />
+        </Container>
+       :(<Container>
         <div className="title-container">
             <h1>Pick an avatar as your Profile Picture</h1>
         </div>
@@ -74,6 +98,7 @@ const SetAvatar = () => {
         </div>
         <button className="submit-btn" onClick={setProfilePicture} >Set as Profile Picture</button>
     </Container>
+    )}    
     <ToastContainer/>
     </>
   )
@@ -99,6 +124,8 @@ const Container = styled.div`
     h1 {
       color: white;
       margin-left:1rem;
+      text-align:center;
+      line-height:2.5rem;
     }
   }
   .avatars {
