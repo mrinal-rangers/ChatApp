@@ -1,8 +1,13 @@
-# React + Vite
+### Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. Navigate to the public directory:
+- ```cd public```
 
-Currently, two official plugins are available:
+2. Install dependencies:
+  - ```npm install```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+3. Start the frontend development server:
+  - ```npm run dev```
+
+Now, the chat application backend and frontend servers are up and running, and you can access the application in your web browser.
+

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useEffect } from "react";
 import Contacts from './Contacts';
 
-const Contacts = ({contacts,currUser}) => {
+const Contact = ({contacts,currUser}) => {
   const [currUserName,setCurrUserName] = useState(undefined);
   const [currUserImage,setCurrUserImage] = useState(undefined);
   const [currSelected,setCurrSelected] = useState(undefined);
@@ -40,10 +40,17 @@ const Contacts = ({contacts,currUser}) => {
                   </div>
                   </>)
               })
-
             }
-
           </div>
+            <div className="curr-user">
+              <div className="avatar">
+              <img src={`data:image/svg+xml;base64,${contact.avatarImage}`} alt="avatar" />
+              </div>
+              <div className="username">
+              <h3> {contact.username} </h3>
+              </div>
+
+            </div>
 
         </Container> : <div>
 
